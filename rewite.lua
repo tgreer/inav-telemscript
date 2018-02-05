@@ -555,14 +555,13 @@ local function getTelemetryValues()
 		longitude     = 0
 	end
 
-	roll          =  getValue("accx") * 10
-	pitch         =  getValue("accy") * 10
-	yaw           =  getValue("accz") * 10
+	roll          =  getValue("Roll")
+	pitch         =  getValue("Ptch")
+	yaw           =  getValue("Yaw")
 	rss1		  =  getValue("1RSS")
 	rss2		  =  getValue("2RSS")
 	rssi          =  math.max(rss1,rss2)
---	speed         =  getValue("Gspd")
-    speed 		  =  0
+	speed         =  getValue("GSpd")
 	sats	      =  getValue("Sats")
 	modes         =  getValue("FM")
 	
@@ -575,9 +574,9 @@ local function getTelemetryValues()
 	end 
 	
 
-	if sats >= 4 then 
+	if sats >= 5 then 
 	  gpsString = "3D Fix"
-	elseif sats >= 3 and sats < 4 then
+	elseif sats >= 3 and sats < 5 then
 	  gpsString = "2D Fix"
 	else 
 	  gpsString = "No Fix"
@@ -585,7 +584,6 @@ local function getTelemetryValues()
 
 	if (prevGpss < 5 and sats >=5) or (sats >= 5 and firstPass) then
 		homeSet = 1
---		gpsString = ""
 		homeLatitude  = latitude
 		homeLongitude = longitude
 	end
@@ -620,6 +618,7 @@ local function runTask(event)
 		drawRadar()
 		drawTextualTelemetry()
 	else
+		lcd.clear()
 		lcd.drawText(32, 25, "No Connection...", BLINK+DBLSIZE)
 	end
 end
