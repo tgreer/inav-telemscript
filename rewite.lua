@@ -17,6 +17,10 @@
 -- Radar is based on Volke Wolkstein MavLink telemetry script
 -- https://github.com/wolkstein/MavLink_FrSkySPort
 
+
+-- Debug Flag
+local debug = 1
+
 -- Various local variables
 local X1, Y1, X2, Y2, XH, YH
 local delta, deltaX, deltaY
@@ -74,7 +78,7 @@ local latitude, longitude = 0, 0
 local homeLatitude, homeLongitude = 0, 0
 local sats, verticalSpeed, rssi, cellVoltage = 0, 0, 0, 0, 0, 0
 local modeString, gpsString = "", ""
-local isArmed = True
+local isArmed = False
 
 -- ***************
 -- GPS Calculation
@@ -345,7 +349,7 @@ local function drawDistance()
 end
 
 local function drawMode()
-	if not isArmed then
+	if(isArmed ==0) then
 		lcd.drawText(colAH - 19, rowAH - 20, "DISARMED", SMLSIZE+INVERS)
 	end
 
@@ -519,14 +523,14 @@ local function drawTextualTelemetry()
 	lcd.drawText(lcd.getLastPos(), y + 2, "RSSI", SMLSIZE)
 
 	y = y + 13
-	lcd.drawText(textualRow, y, "FM:", SMLSIZE)
-	lcd.drawText(lcd.getLastPos(), y, modes, SMLSIZE+LEFT)
+	lcd.drawText(textualRow, y, "HDG:", SMLSIZE)
+	lcd.drawText(lcd.getLastPos(), y, heading, SMLSIZE+LEFT)
 
 	y = y + 8
-	local fieldinfo = getFieldInfo('FM')
-	lcd.drawText(textualRow, y, fieldinfo['id'], SMLSIZE)
+--	local fieldinfo = getFieldInfo('FM')
+--	lcd.drawText(textualRow, y, fieldinfo['id'], SMLSIZE)
 	y = y + 8
-	lcd.drawText(textualRow, y, fieldinfo['name'], SMLSIZE)
+--	lcd.drawText(textualRow, y, fieldinfo['name'], SMLSIZE)
 --	lcd.drawText(lcd.getLastPos(), y, modeString, SMLSIZE+LEFT)
 
 --	local arrowSymbol = (verticalSpeed > 0 and "\192") or "\193"
@@ -542,29 +546,49 @@ end
 -- *************
 
 local function getTelemetryValues()
-	altitude      =  getValue("Alt")
-	cellVoltage   =  getValue("RxBt")
-	heading       =  getValue("Hdg")
-	gpspos        =  getValue("GPS")
 
-	if (type(gpspos) == "table") then
-		latitude      =  gpspos["lat"]
-		longitude     =  gpspos["lon"]
+	if(debug == 1) then
+		altitude      =  20
+		cellVoltage   =  11.7
+		latitude      =  0
+		longitude     =  0
+		roll          =  math.deg(-2.02)
+		pitch         =  math.deg(-2.57)
+		yaw           =  math.deg(-2.07)
+		rss1		  =  38
+		rss2		  =  47
+		rssi          =  math.max(rss1,rss2)
+		speed         =  10
+		sats	      =  14
+		modes         =  "ANGL"
+		isArmed 	  =  1
+
 	else
-		latitude      = 0
-		longitude     = 0
+		altitude      =  getValue("Alt")
+		cellVoltage   =  getValue("RxBt")
+		gpspos        =  getValue("GPS")
+
+		if (type(gpspos) == "table") then
+			latitude      =  gpspos["lat"]
+			longitude     =  gpspos["lon"]
+		else
+			latitude      = 0
+			longitude     = 0
+		end
+
+		roll          =  math.deg(getValue("Roll"))
+		pitch         =  math.deg(getValue("Ptch"))
+		yaw           =  math.deg(getValue("Yaw"))
+		rss1		  =  getValue("1RSS")
+		rss2		  =  getValue("2RSS")
+		rssi          =  math.max(rss1,rss2)
+		speed         =  getValue("GSpd")
+		sats	      =  getValue("Sats")
+		modes         =  getValue("FM")
+	
+
 	end
 
-	roll          =  getValue("Roll")
-	pitch         =  getValue("Ptch")
-	yaw           =  getValue("Yaw")
-	rss1		  =  getValue("1RSS")
-	rss2		  =  getValue("2RSS")
-	rssi          =  math.max(rss1,rss2)
-	speed         =  getValue("GSpd")
-	sats	      =  getValue("Sats")
-	modes         =  getValue("FM")
-	
 	if pitch < 0 then 
 		pitch = 360 + pitch 
 	end 
