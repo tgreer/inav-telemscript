@@ -1,4 +1,4 @@
--- 2017 Thomas Greer - Modified for inav/crossfire
+-- 2018 Thomas Greer - Modified for inav/crossfire
 -- 2017 John Ihlein - Modifed to work with Dronin flight firmware
 -- Copyright (c) 2015 dandys.
 -- Copyright (c) 2014 Marco Ricci.
