@@ -120,8 +120,8 @@ local function gpsCalculation()
 	end
 end
 
-local colAH  = 54
-local rowAH  = 31
+local colAH  = 51
+local rowAH  = 32
 local radAH  = 22
 local pitchR = radAH / 25
 local attAH  = FORCE + GREY(12)
@@ -200,8 +200,8 @@ local function drawHorizon()
 		end
 	end
 
-	lcd.drawLine(colAH - radAH - 1, rowAH - radAH - 1, colAH - radAH - 1, rowAH + radAH + 1, SOLID, attBox)
-	lcd.drawLine(colAH + radAH + 1, rowAH - radAH - 1, colAH + radAH + 1, rowAH + radAH + 1, SOLID, attBox)
+	lcd.drawLine(colAH - radAH - 1, rowAH - radAH, colAH - radAH - 1, rowAH + radAH + 1, SOLID, attBox)
+	lcd.drawLine(colAH + radAH + 1, rowAH - radAH , colAH + radAH + 1, rowAH + radAH + 1, SOLID, attBox)
 	lcd.drawLine(colAH - radAH - 1, rowAH + radAH + 1, colAH + radAH + 1, rowAH + radAH + 1, SOLID, attBox)
 end
 
@@ -275,7 +275,7 @@ local function drawPitch()
 				Y2 = radAH 
 			end
 
-			lcd.drawLine(colAH + X1, rowAH + Y1, colAH + X2, rowAH + Y2, SOLID, FORCE)
+			lcd.drawLine(colAH + X1, rowAH + Y1, colAH + X2 + 1, rowAH + Y2, SOLID, FORCE)
 		end
 	end
 end
@@ -307,7 +307,7 @@ local function drawHeading()
 			wrkHeading = wrkHeading + 360 
 		end
 
-		delatX = (wrkHeading / 3.3) - 1
+		delatX = (wrkHeading / 3.3) - 0
 
 		if delatX >= -31 and delatX <= 31 then
 			if point[3] then
@@ -424,14 +424,14 @@ local function drawSpeed()
 	lcd.drawFilledRectangle(colSpeed - 18, 0, 18,  9, ERASE)
 
 	lcd.drawNumber(colSpeed - 17, 1 + rowAH - 3, speed, SMLSIZE+INVERS)
-	lcd.drawText(colSpeed - 20, 1, "kmh", SMLSIZE+FIXEDWIDTH)
+	lcd.drawText(colSpeed - 19, 1, "kmh", SMLSIZE+FIXEDWIDTH)
 end
 
 -- ***************
 -- Draw radar area
 -- ***************
 
-local colRadar, rowRadar = 134, 27
+local colRadar, rowRadar = 135, 28
 
 --local radarShape1 = {
 --	{-4, 5, 0, -4},
@@ -548,17 +548,17 @@ end
 local function getTelemetryValues()
 
 	if(debug == 1) then
-		altitude      =  20
+		altitude      =  100
 		cellVoltage   =  11.7
 		latitude      =  0
 		longitude     =  0
-		roll          =  math.deg(0)
-		pitch         =  math.deg(0)
-		yaw           =  math.deg(0)
+		roll          =  0
+		pitch         =  0
+		yaw           =  0
 		rss1		  =  38
 		rss2		  =  47
 		rssi          =  math.max(rss1,rss2)
-		speed         =  10
+		speed         =  100
 		sats	      =  14
 		modes         =  "ANGL"
 		isArmed 	  =  1
