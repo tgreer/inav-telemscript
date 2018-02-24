@@ -78,7 +78,7 @@ local latitude, longitude = 0, 0
 local homeLatitude, homeLongitude = 0, 0
 local sats, verticalSpeed, rssi, cellVoltage = 0, 0, 0, 0, 0, 0
 local modeString, gpsString = "", ""
-local isArmed = False
+local isArmed = 0
 
 -- ***************
 -- GPS Calculation
