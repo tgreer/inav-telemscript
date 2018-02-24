@@ -77,7 +77,7 @@ local heading, direction = 0, 0
 local latitude, longitude = 0, 0
 local homeLatitude, homeLongitude = 0, 0
 local sats, verticalSpeed, rssi, cellVoltage = 0, 0, 0, 0, 0, 0
-local modeString, gpsString = "", ""
+local gpsString = "", ""
 local isArmed = 0
 
 -- ***************
@@ -124,7 +124,7 @@ local colAH  = 54
 local rowAH  = 31
 local radAH  = 22
 local pitchR = radAH / 25
-local attAH  = FORCE + GREY(3)
+local attAH  = FORCE + GREY(12)
 local attBox = FORCE + GREY(3)
 
 local colAlt   = colAH + 31
@@ -552,9 +552,9 @@ local function getTelemetryValues()
 		cellVoltage   =  11.7
 		latitude      =  0
 		longitude     =  0
-		roll          =  math.deg(-2.02)
-		pitch         =  math.deg(-2.57)
-		yaw           =  math.deg(-2.07)
+		roll          =  math.deg(0)
+		pitch         =  math.deg(0)
+		yaw           =  math.deg(0)
 		rss1		  =  38
 		rss2		  =  47
 		rssi          =  math.max(rss1,rss2)
