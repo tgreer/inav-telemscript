@@ -509,22 +509,20 @@ local textualRow = 164
 local function drawTextualTelemetry()
 
 	local y = 0
-
-	y = y + 8
 	lcd.drawText(textualRow, y, "SATS:", SMLSIZE)
 	lcd.drawNumber(lcd.getLastPos(), y, sats, SMLSIZE+LEFT)
   
 	y = y + 8
-	lcd.drawNumber(textualRow + 3, y, cellVoltage * 100, PREC2+LEFT+MIDSIZE)
-	lcd.drawText(lcd.getLastPos(), y, "V", MIDSIZE)
+--	lcd.drawNumber(textualRow + 3, y, cellVoltage * 100, PREC2+LEFT+MIDSIZE)
+--	lcd.drawText(lcd.getLastPos(), y, "V", MIDSIZE)
 
 	y = y + 13
-	lcd.drawNumber(textualRow + 0, y, rssi, LEFT+MIDSIZE)
-	lcd.drawText(lcd.getLastPos(), y + 2, "RSSI", SMLSIZE)
+--	lcd.drawNumber(textualRow + 0, y, rssi, LEFT+MIDSIZE)
+--	lcd.drawText(lcd.getLastPos(), y + 2, "RSSI", SMLSIZE)
 
 	y = y + 13
-	lcd.drawText(textualRow, y, "HDG:", SMLSIZE)
-	lcd.drawText(lcd.getLastPos(), y, heading, SMLSIZE+LEFT)
+--	lcd.drawText(textualRow, y, "HDG:", SMLSIZE)
+--	lcd.drawText(lcd.getLastPos(), y, heading, SMLSIZE+LEFT)
 
 	y = y + 8
 --	local fieldinfo = getFieldInfo('FM')
