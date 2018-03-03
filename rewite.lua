@@ -19,7 +19,7 @@
 
 
 -- Debug Flag
-local debug = 1
+local debug = 0
 
 -- Various local variables
 local X1, Y1, X2, Y2, XH, YH
