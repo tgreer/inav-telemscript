@@ -438,7 +438,7 @@ end
 -- Draw radar area
 -- ***************
 
-local colRadar, rowRadar = 135, 28
+local colRadar, rowRadar = 132, 28
 
 --local radarShape1 = {
 --	{-4, 5, 0, -4},
@@ -602,7 +602,7 @@ local function getTelemetryValues()
 		end
 
 		roll          =  math.deg(getValue("Roll"))
-		pitch         =  math.deg(getValue("Ptch"))
+		pitch         =  -1 * math.deg(getValue("Ptch"))
 		yaw           =  math.deg(getValue("Yaw"))
 		rss1		  =  getValue("1RSS")
 		rss2		  =  getValue("2RSS")
