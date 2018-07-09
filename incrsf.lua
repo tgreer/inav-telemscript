@@ -19,7 +19,7 @@
 
 
 -- Debug Flag
-local debug = 0
+local debug = 1
 
 -- Various local variables
 local X1, Y1, X2, Y2, XH, YH
@@ -38,7 +38,7 @@ local colAH  = 51
 local rowAH  = 32
 local radAH  = 22
 local pitchR = radAH / 25
-local attAH  = FORCE + GREY(12)
+local attAH  = FORCE + GREY(6)
 local attBox = FORCE + GREY(0)
 
 local colAlt   = colAH + 31
