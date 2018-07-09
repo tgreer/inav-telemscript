@@ -19,7 +19,7 @@
 
 
 -- Debug Flag
-local debug = 1
+local debug = 0
 
 -- Various local variables
 local X1, Y1, X2, Y2, XH, YH
@@ -28,6 +28,7 @@ local delta, deltaX, deltaY
 local firstPass = 1
 local homeSet   = 0
 local prevGpss  = 0
+local runcounter = 0
 local firstrun  = 1
 local gpsFirstRun  = 1
 local rssi		= 0
@@ -517,13 +518,12 @@ local function drawTextualTelemetry()
 	local y = -4
 	lcd.drawNumber(textualRow + 18, y + 4, distance_2D, LEFT+MIDSIZE)
 	lcd.drawText(lcd.getLastPos(), y + 8, "m", SMLSIZE)
-	y = 11
-	--lcd.drawNumber(textualRow + 18, y + 4, sats, LEFT+MIDSIZE)
-	y = 29
-	lcd.drawNumber(textualRow + 18, y + 2, cellVoltage * 10, PREC1+LEFT+MIDSIZE)
+	y = 30
+	lcd.drawNumber(textualRow + 14, y + 2, cellVoltage * 10, PREC1+LEFT+MIDSIZE)
 	lcd.drawText(lcd.getLastPos(), y + 6, "V", SMLSIZE)
-	y = 47
-	--lcd.drawText(textualRow + 18, y + 4, modes, LEFT+SMLSIZE)
+	y = 42
+	lcd.drawText(textualRow, y + 4, latitude, LEFT+SMLSIZE)
+	lcd.drawText(textualRow, y + 12, longitude, LEFT+SMLSIZE)
 end
 
 
@@ -532,13 +532,7 @@ end
 -- Draw function
 -- *************
 
-local function drawThings()
-	lcd.clear()
-	lcd.drawPixmap(textualRow, -4, "/SCRIPTS/TELEMETRY/BMP/dist.bmp")
-	lcd.drawPixmap(textualRow, 11, "/SCRIPTS/TELEMETRY/BMP/sat.bmp")
-	lcd.drawPixmap(textualRow, 29, "/SCRIPTS/TELEMETRY/BMP/fm.bmp")
-	--lcd.drawPixmap(textualRow, 47, "/SCRIPTS/TELEMETRY/BMP/fm.bmp")
-end
+
 
 local function blankGauges()
 	lcd.drawFilledRectangle(0,0,163,64,ERASE)
@@ -554,17 +548,22 @@ local function gpsWidget(xCoord,yCoord)
 	    elseif sats > 1 then satImg = "/SCRIPTS/TELEMETRY/BMP/gps_2.bmp"
 	    elseif sats > 0 then satImg = "/SCRIPTS/TELEMETRY/BMP/gps_1.bmp"
     end
-
 	if prevGpss ~= sats then
 	    lcd.drawPixmap(xCoord+13, yCoord+3, satImg)
 	    lcd.drawNumber(xCoord+14, yCoord+2, sats, SMLSIZE)
-
 	end
-    if gpsFirstRun == 1 then
+    if firstrun == 1 then
     	lcd.drawPixmap(xCoord+13, yCoord+3, satImg)
 	    lcd.drawNumber(xCoord+14, yCoord+2, sats, SMLSIZE)
-	    gpsFirstRun = 0
 	   end
+end
+
+local function drawThings()
+	lcd.drawFilledRectangle(163,0,212,64,ERASE)
+	lcd.drawPixmap(textualRow, -4, "/SCRIPTS/TELEMETRY/BMP/dist.bmp")
+	lcd.drawPixmap(textualRow, 11, "/SCRIPTS/TELEMETRY/BMP/sat.bmp")
+	gpsWidget(textualRow,11)
+	lcd.drawPixmap(textualRow -3, 29, "/SCRIPTS/TELEMETRY/BMP/battery.bmp")
 end
 
 -- *************
@@ -623,8 +622,6 @@ local function getTelemetryValues()
 	end 
 	
 
-
-
 	if (prevGpss < 5 and sats >=5) or (sats >= 5 and firstPass) then
 		homeSet = 1
 		homeLatitude  = latitude
@@ -670,17 +667,21 @@ local function runTask(event)
 		drawAltitude()
 		drawSpeed()
 		drawHeading()
-		drawPitch()
-	--	drawDistance()  
+		drawPitch() 
 		gpsWidget(textualRow,11)
 		drawHorizon()
 		drawMode()
 		drawRadar()
+		if runcounter == 20 then
+			firstrun = 1
+			runcounter = 0
+		else
+			runcounter = runcounter + 1
+		end
 	else
 		lcd.clear()
 		lcd.drawText(32, 25, "No Connection...", BLINK+DBLSIZE)
 		firstrun = 1
-		gpsFirstRun = 1
 	end
 end
 
