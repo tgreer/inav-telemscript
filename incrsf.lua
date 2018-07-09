@@ -19,7 +19,7 @@
 
 
 -- Debug Flag
-local debug = 1
+local debug = 0
 
 -- Various local variables
 local X1, Y1, X2, Y2, XH, YH
@@ -39,7 +39,7 @@ local rowAH  = 32
 local radAH  = 22
 local pitchR = radAH / 25
 local attAH  = FORCE + GREY(12)
-local attBox = FORCE + GREY(3)
+local attBox = FORCE + GREY(0)
 
 local colAlt   = colAH + 31
 local colSpeed = colAH - 31
@@ -664,7 +664,7 @@ local function runTask(event)
 			drawThings()
 			firstrun = 0
 		end
-			drawTextualTelemetry()
+		drawTextualTelemetry()
 		gpsCalculation()
 		blankGauges()
 		drawAltitude()
